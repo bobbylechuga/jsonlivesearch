@@ -1,4 +1,7 @@
 $(document).ready(function(){
+  $("#live-search").on("submit", function(e){
+      e.preventDefault();
+  });
   $.getJSON( "candidatos.json", function( data ) {
     $.each( data, function( clave, valor ) {
       if (clave <= 10) {
@@ -6,7 +9,6 @@ $(document).ready(function(){
       }
     });
     $('#filter').keyup(function(){
-
       var inputCandidato = $('#filter').val();
       var regex = new RegExp(inputCandidato, "i");
 
@@ -18,6 +20,9 @@ $(document).ready(function(){
             //console.log(val.value);
           }
         });
+        if ( $('.lista-candidaatos li').length == 0 ) {
+          $('.lista-candidaatos').html('<li class="empty-message">No se encontraron resultados para la busqueda...</li>');
+        }
       }else if (inputCandidato.length <=0) {
         $('.lista-candidaatos li').remove();
         $.each( data, function( clave, valor ) {
@@ -30,6 +35,6 @@ $(document).ready(function(){
   });
 
   function listaDeCandidatos(valor) {
-    $('.lista-candidaatos').append('<li><a href="'+valor.url+'">'+valor.value+' - '+valor.cargo+'</a></li>');
+    $('.lista-candidaatos').append('<li><a href="'+valor.url+'">'+valor.value+' - '+valor.cargo+' - <span class"busqueda-comuna">'+valor.comuna+'</span></a></li>');
   }
 });
